@@ -19,6 +19,8 @@
     "@angular/platform-browser": "~10.1.3",
     "@angular/platform-browser-dynamic": "~10.1.3",
     "@angular/router": "~10.1.3",
+    "axios": "^0.20.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "lodash": "^4.17.20",
     "primeicons": "^4.0.0",
