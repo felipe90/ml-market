@@ -2,7 +2,7 @@ import config from '../../assets/config/config.json';
 import Product from '../models/product.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'lodash';
+import { map, toArray, values } from 'lodash';
 import { Observable } from 'rxjs';
 
 
@@ -12,37 +12,41 @@ import { Observable } from 'rxjs';
 })
 export class RequestService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public getItems(params?: any): Observable<any> {
-    const url = this.getQueryUrl(config, params)
-    const options = this.getParams(params);
+    const url = this.getQueryUrl(config)
+    const query = params ? this.getParams(params): '';
 
-    return params ? this.http.get(url, options) :  this.http.get(url);
+    console.log(`${url}${query}`)
+
+    return params ? this.http.get(`${url}=${query}`) : this.http.get(url);
   }
 
   public getFilters(): Observable<any> {
-    const url = this.getQueryUrl(config)
+    const url = this.getFiltersUrl(config)
 
     return this.http.get(url);
   }
 
-  private getQueryUrl(config: any, params?: any): string {
+  private getQueryUrl(config: any): string {
     let requestURL = `http://${config.host}:${config.port}${config.api}${config.productsUrl}`;
 
     return requestURL
   }
 
-  private getParams(params): any {
+  private getFiltersUrl(config: any): string {
+    let requestURL = `http://${config.host}:${config.port}${config.api}${config.filters}`;
 
-    const a =  map(params,(value, key) => {
-      return new HttpParams().set(key, value);
-    })
+    return requestURL
+  }
 
-    const options = {
-        params: a
-    }
+  private getParams(params: any): string {
+    const options = [];
+    Object.keys(params).forEach(keyName => {
+      options.push(`${keyName}=${params[keyName]}`)
+    });
 
-    return options;
+    return options.join('&');
   }
 }

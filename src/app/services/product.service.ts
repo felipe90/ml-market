@@ -9,12 +9,6 @@ import { take } from 'rxjs/operators';
 })
 export class ProductService {
 
-  private siteId = '';
-  private _availableFilters = [];
-  private _availableSorts = [];
-  private appliedSort = {}
-  private appliedFilters = {}
-
   private _products = [];
   private _selectedProduct;
 
@@ -35,10 +29,12 @@ export class ProductService {
   }
 
   constructor(private requestService: RequestService) {
-    this.requestService.getItems().pipe(take(1)).subscribe((res: any) => {
-      this._availableFilters = res.available_filters
-      this._availableSorts = res.available_sorts
-      this.appliedSort = res.sort
+    const params = {
+      "title": "ipod",
+      "accepts_mercadopago": 'yes'
+    }
+    this.requestService.getItems(params).pipe(take(1)).subscribe((res: any) => {
+      console.log(res)
     })
   }
 
