@@ -36,10 +36,11 @@ export class ProductService {
 
     let id = null;
     this.requestService.getItems(params).pipe(take(1)).subscribe((res: any) => {
-      id = res[0].items.id
-    })
-    this.requestService.getItem(params).pipe(take(1)).subscribe((res: any) => {
-      console.log(res)
+      console.log(res[0].item.id)
+      id = res[0].item.id
+      this.requestService.getItem(id).pipe(take(1)).subscribe((res: any) => {
+        console.log(res)
+      })
     })
   }
 

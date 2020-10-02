@@ -5,6 +5,8 @@ const fromItemRawToItemDTO = (input) => {
     return;
   }
 
+  const additionalFields = ['condition', 'pictures', 'address', 'available_quantity' ]
+
   let output = {
     id: input.id,
     title: input.title,
@@ -19,13 +21,11 @@ const fromItemRawToItemDTO = (input) => {
     sold_quantity: input.sold_quantity,
   };
 
-  if (input.condition) {
-    output = { ...output, ...{ condition: input.condition } };
-  }
-
-  if (input.pictures) {
-    output = { ...output, ...{ pictures: input.pictures } };
-  }
+  additionalFields.forEach(fieldName => {
+    if (input[fieldName]) {
+      output = { ...output, ...{ [fieldName]: input[fieldName] } };
+    }
+  })
 
   return output;
 };

@@ -12,21 +12,19 @@ import { Observable } from 'rxjs';
 })
 export class RequestService {
 
+  readonly API_URL = `${config.host}:${config.port}${config.api}`;
+
   constructor(private http: HttpClient) { }
 
   public getItems(params?: any): Observable<any> {
-    const url = this.getQueryUrl(config)
-    const query = params ? this.getParams(params): '';
+    const query = params ? this.getParams(params) : '';
 
-    console.log(`${url}${query}`)
-
-    return params ? this.http.get(`${url}=${query}`) : this.http.get(url);
+    return params ?
+      this.http.get(`http://${this.API_URL}${config.productsEndpoint}=${query}`) : this.http.get(`${this.API_URL}${config.productsEndpoint}`);
   }
 
-  private getQueryUrl(config: any): string {
-    let requestURL = `http://${config.host}:${config.port}${config.api}${config.productsUrl}`;
-
-    return requestURL
+  public getItem(itemId: string): Observable<any> {
+    return this.http.get(`http://${this.API_URL}${config.productEndpoint}/${itemId}`)
   }
 
   private getParams(params: any): string {
