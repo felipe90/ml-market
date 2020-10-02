@@ -2,6 +2,5 @@
   "port": "8080",
   "host": "localhost",
   "api": "/api",
-  "productsUrl": "/items?q",
-  "filters": "/filters"
+  "productsUrl": "/items?q"
 }

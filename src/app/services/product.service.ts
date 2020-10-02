@@ -30,10 +30,15 @@ export class ProductService {
 
   constructor(private requestService: RequestService) {
     const params = {
-      "title": "ipod",
+      "title": "Apple ipod",
       "accepts_mercadopago": 'yes'
     }
+
+    let id = null;
     this.requestService.getItems(params).pipe(take(1)).subscribe((res: any) => {
+      id = res[0].items.id
+    })
+    this.requestService.getItem(params).pipe(take(1)).subscribe((res: any) => {
       console.log(res)
     })
   }

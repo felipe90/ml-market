@@ -13,9 +13,6 @@ app.use(cors());
 const itemsRoute = require('./routes/items.route');
 app.use('/api/items', itemsRoute)
 
-const filtersRoute = require('./routes/filters.route');
-app.get('/api/filters', filtersRoute)
-
 // Error handler
 app.use((err, req, res, next) => {
   res.status(err.status || 500);

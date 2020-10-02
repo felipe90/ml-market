@@ -23,20 +23,8 @@ export class RequestService {
     return params ? this.http.get(`${url}=${query}`) : this.http.get(url);
   }
 
-  public getFilters(): Observable<any> {
-    const url = this.getFiltersUrl(config)
-
-    return this.http.get(url);
-  }
-
   private getQueryUrl(config: any): string {
     let requestURL = `http://${config.host}:${config.port}${config.api}${config.productsUrl}`;
-
-    return requestURL
-  }
-
-  private getFiltersUrl(config: any): string {
-    let requestURL = `http://${config.host}:${config.port}${config.api}${config.filters}`;
 
     return requestURL
   }

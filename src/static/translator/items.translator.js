@@ -6,27 +6,25 @@ const fromItemRawToItemDTO = (input) => {
   }
 
   let output = {
-    item: {
-      id: input.id,
-      title: input.title,
-      price: {
-        currency: input.currency_id,
-        amount: input.price ? input.price.toFixed(0) : null ,
-        decimals: input.price % 1,
-      },
-      permalink: input.permalink,
-      thumbnail: input.thumbnail,
-      free_shipping: input.shipping && input.shipping.free_shipping,
-      sold_quantity: input.sold_quantity,
+    id: input.id,
+    title: input.title,
+    price: {
+      currency: input.currency_id,
+      amount: input.price ? input.price.toFixed(0) : null,
+      decimals: input.price % 1,
     },
+    permalink: input.permalink,
+    thumbnail: input.thumbnail,
+    free_shipping: input.shipping && input.shipping.free_shipping,
+    sold_quantity: input.sold_quantity,
   };
 
   if (input.condition) {
-    output.item = { ...output.item, ...{ condition: input.condition } };
+    output = { ...output, ...{ condition: input.condition } };
   }
 
   if (input.pictures) {
-    output.item = { ...output.item, ...{ pictures: input.pictures } };
+    output = { ...output, ...{ pictures: input.pictures } };
   }
 
   return output;
@@ -54,14 +52,23 @@ const fromCategoryToArray = (category) => {
     return;
   }
   if (category.path_from_root) {
-    return category.path_from_root.map((item) => {
-      return item.name;
-    });
+    return category.path_from_root.map((item) => item.name);
   }
+};
+
+const fromAvailableFiltersToCategories = (availableFilters) => {
+  if (!availableFilters) {
+    return;
+  }
+  const categories = availableFilters.find((filter) => filter.id === "category")
+    .values;
+
+  return categories.map((item) => item.name);
 };
 
 module.exports = {
   fromItemRawToItemDTO,
   fromSellerToAuthor,
   fromCategoryToArray,
+  fromAvailableFiltersToCategories,
 };

@@ -16,34 +16,19 @@ const getItems = async (req, res, next) => {
       ]).catch((error) => error);
 
       itemsDTO.push({
-        ...itemsTranslator.fromItemRawToItemDTO(item),
+        ...{ item: itemsTranslator.fromItemRawToItemDTO(item) },
         ...{ author: itemsTranslator.fromSellerToAuthor(seller) },
         ...{ categories: itemsTranslator.fromCategoryToArray(category) },
+        ...{
+          relatedCategories: itemsTranslator.fromAvailableFiltersToCategories(
+            items.available_filters
+          ),
+        },
+        ...{ availableFilters: items.available_filters },
       });
     }
 
     res.send(itemsDTO);
-
-    // const itemsDTO = await items.results.map(async (item) => {
-    //   let [seller, category] = await Promise.all([
-    //     itemService.getItemSellerById(item.seller.id),
-    //     itemService.getItemCategoryById(item.category_id),
-    //   ]).catch((error) => error);
-
-    //   const res = {
-    //     // ...itemsTranslator.fromItemsRawToItemsDTO(item),
-    //     ...{ author: itemsTranslator.fromSellerToAuthor(seller) },
-    //     ...{ categories: itemsTranslator.fromCategoryToArray(category)}
-    //   }
-
-    //   console.log(res)
-    //   console.log(itemsTranslator.fromItemsRawToItemsDTO(item))
-
-    //   return res;
-    // });
-
-    // res.send(itemsDTO);
-    // res.send(items.results);
     next();
   } catch (error) {
     console.error("error", error);
@@ -59,9 +44,10 @@ const getItem = async (req, res, next) => {
     ]).catch((error) => console.log(`Error in executing ${error}`));
 
     const itemDTO = {
-      ...itemsTranslator.fromItemRawToItemDTO(item),
+      ...{ item: itemsTranslator.fromItemRawToItemDTO(item) },
       ...{ author: itemsTranslator.fromSellerToAuthor(seller) },
       ...{ description: desc.plain_text },
+      ...{ attributes: item.attributes.map((attr) => attr.name) },
     };
 
     res.send(itemDTO);
