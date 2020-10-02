@@ -3,13 +3,15 @@ const ML_API = require("../constants/ml-api.constants");
 
 const getItemsByQuery = async (query) => {
   try {
-    const uri = `${ML_API.ITEMS_QUERY_URI}${query}&&limit=4`;
-    const res = await axios.get(uri);
+    const uri = query
+      ? `${ML_API.ITEMS_QUERY_URI}${query}&&limit=${ML_API.ITEMS_QUERY_LIMIT}`
+      : `${ML_API.ITEMS_QUERY_URI}&&limit=${ML_API.ITEMS_QUERY_LIMIT}`;
+
     console.log("[Items-Requested]: " + uri);
+    const res = await axios.get(uri);
 
     return res.data;
   } catch (error) {
-    console.error(error);
     return error;
   }
 };
@@ -17,34 +19,35 @@ const getItemsByQuery = async (query) => {
 const getItemById = async (itemId) => {
   try {
     const uri = `${ML_API.ITEM_QUERY_URI}${itemId}`;
-    const res = await axios.get(uri);
+
     console.log("[Item-Requested]: " + uri);
+    const res = await axios.get(uri);
 
     return res.data;
   } catch (error) {
-    console.error(error);
     return error;
   }
 };
 
 const getItemDescriptionById = async (descId) => {
   try {
-    const uri = ML_API.ITEM_DESC_URI.replace("/{id}/g", descId);
-    const res = await axios.get(uri);
+    const uri = ML_API.ITEM_DESC_URI.replace("{id}", descId);
+
     console.log("[Desc-Requested]: " + uri);
+    const res = await axios.get(uri);
 
     return res.data;
   } catch (error) {
-    console.error(error);
     return error;
   }
 };
 
 const getItemCategoryById = async (categoryId) => {
   try {
-    const uri = ML_API.CATEGORIES_URI.replace("/{id}/g", categoryId);
-    const res = await axios.get(uri);
+    const uri = ML_API.CATEGORIES_URI.replace("{id}", categoryId);
+
     console.log("[Category-Requested]: " + uri);
+    const res = await axios.get(uri);
 
     return res.data;
   } catch (error) {
@@ -54,9 +57,10 @@ const getItemCategoryById = async (categoryId) => {
 
 const getItemSellerById = async (sellerId) => {
   try {
-    const uri = ML_API.USERS_URI.replace("/{id}/g", sellerId);
-    const res = await axios.get(uri);
+    const uri = ML_API.USERS_URI.replace("{id}", sellerId);
+
     console.log("[Seller-Requested]: " + uri);
+    const res = await axios.get(uri);
 
     return res.data;
   } catch (error) {
@@ -69,5 +73,5 @@ module.exports = {
   getItemById,
   getItemDescriptionById,
   getItemCategoryById,
-  getItemSellerById
+  getItemSellerById,
 };

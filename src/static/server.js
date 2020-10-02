@@ -12,7 +12,7 @@ app.use(cors());
 // Server Routes
 const itemsRoute = require('./routes/items.route');
 app.use('/api/items', itemsRoute)
-// app.get('/api/items/:id', itemsRoute)
+
 const filtersRoute = require('./routes/filters.route');
 app.get('/api/filters', filtersRoute)
 
