@@ -16,19 +16,20 @@
 
 .search-icon {
   width: 40px;
-  height: 43px;
-  background-color: #ececec;
+  height: 37.2px;
   right: 1px;
+  background-color: #ececec;
   position: absolute;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
   top: 1px;
+  cursor: pointer;
 
   .pi {
-    top: 35%;
     position: absolute;
-    right: 25%;
     color: #2a2a2a;
+    top: 30%;
+    right: 25%;
   }
 }
 

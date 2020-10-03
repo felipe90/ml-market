@@ -11,6 +11,7 @@
       [suggestions]="suggestions"
       (completeMethod)="searchSuggestions($event)"
       (onSelect)="onSelectSuggestion($event)"
+      (onKeyUp)="searchProducts($event)"
       styleClass="full-width"
       inputStyleClass="full-width"
       field="search"
@@ -18,7 +19,7 @@
       placeholder="Nunca pares de buscar"
       ariaLabel="search suggestion input"
     ></p-autoComplete>
-    <span class="search-icon">
+    <span class="search-icon" (click)="searchProducts($event)">
       <i class="pi pi-search"></i>
     </span>
   </section>

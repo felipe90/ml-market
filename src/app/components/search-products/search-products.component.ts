@@ -41,7 +41,27 @@ export class SearchProductsComponent implements OnInit {
   }
 
   public onSelectSuggestion(event) {
-    console.log(event)
+    this.selectedValue = event;
+    this._performSearch(this.selectedValue)
+  }
+
+  public searchProducts(event) {
+    if (!this.selectedValue) {
+      return;
+    }
+    // User should press "Enter" after search or click on search icon
+    if ((event.type === "keyup" && event.keyCode === 13) || event.type === "click") {
+      this._performSearch(this.selectedValue)
+    }
+  }
+
+  private _performSearch (query: string) {
+    this.productService.getItemsByTitle(query).subscribe((res) => {
+      if (!res) {
+        return;
+      }
+      console.log(res)
+    });
   }
 
 }
