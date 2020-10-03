@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RequestService } from './request.service';
-import { take } from 'rxjs/operators';
+import { ItemsRequestService } from './ItemsRequest.service';
+import { map, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -28,20 +28,25 @@ export class ProductService {
     this._selectedProduct = value;
   }
 
-  constructor(private requestService: RequestService) {
-    const params = {
-      "title": "Apple ipod",
-      "accepts_mercadopago": 'yes'
-    }
-
-    let id = null;
-    this.requestService.getItems(params).pipe(take(1)).subscribe((res: any) => {
-      console.log(res[0].item.id)
-      id = res[0].item.id
-      this.requestService.getItem(id).pipe(take(1)).subscribe((res: any) => {
-        console.log(res)
-      })
+  constructor(private requestService: ItemsRequestService) {
+    this.requestService.getSuggestedQueries('ipod').pipe(take(1)).subscribe((res: any) => {
+      console.log(res)
     })
+  }
+
+  public getItemsByTitle(title: string): Observable<any> {
+    const params = { "title": title, };
+
+    return this.requestService.getItems(params).pipe(take(1));
+  }
+
+  public getSuggestionsByQuery(query: string): Observable<any> {
+    return this.requestService.getSuggestedQueries(query)
+      .pipe(take(1))
+      .pipe(map(res => {
+        return res.suggested_queries;
+      }));
+    ;
   }
 
 }

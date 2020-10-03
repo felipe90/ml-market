@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class RequestService {
+export class ItemsRequestService {
 
   readonly API_URL = `${config.host}:${config.port}${config.api}`;
 
@@ -34,5 +34,9 @@ export class RequestService {
     });
 
     return options.join('&');
+  }
+
+  public getSuggestedQueries(title: string): Observable<any> {
+    return this.http.get(`${config.suggestedQueriesEndPoint}${title}`);
   }
 }

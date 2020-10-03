@@ -1,4 +1,25 @@
-<span class="p-input-icon-right">
-  <input type="text" pInputText placeholder="Search" [(ngModel)]="searchValue" />
-  <i class="pi pi-search"></i>
-</span>
+<section class="search-product-container">
+  <img
+    class="img-logo"
+    alt="Mercadolibre Logo"
+    src="assets/img/Logo_ML@2x.png.png"
+  />
+  <section class="p-input-icon-right search-autocomplete">
+    <p-autoComplete
+      [(ngModel)]="selectedValue"
+      [minLength]="1"
+      [suggestions]="suggestions"
+      (completeMethod)="searchSuggestions($event)"
+      (onSelect)="onSelectSuggestion($event)"
+      styleClass="full-width"
+      inputStyleClass="full-width"
+      field="search"
+      inputId="search-input"
+      placeholder="Nunca pares de buscar"
+      ariaLabel="search suggestion input"
+    ></p-autoComplete>
+    <span class="search-icon">
+      <i class="pi pi-search"></i>
+    </span>
+  </section>
+</section>

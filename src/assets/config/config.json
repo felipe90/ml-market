@@ -3,5 +3,6 @@
   "host": "localhost",
   "api": "/api",
   "productsEndpoint": "/items?q",
-  "productEndpoint": "/items"
+  "productEndpoint": "/items",
+  "suggestedQueriesEndPoint": "https://http2.mlstatic.com/resources/sites/MCO/autosuggest?showFilters=true&limit=6&api_version=2&q="
 }
