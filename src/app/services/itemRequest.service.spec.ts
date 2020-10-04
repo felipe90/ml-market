@@ -1,4 +1,4 @@
-import { ItemsRequestService } from './ItemsRequest.service';
+import { ItemsRequestService } from './itemsRequest.service';
 import { TestBed } from '@angular/core/testing';
 
 

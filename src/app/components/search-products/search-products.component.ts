@@ -26,21 +26,11 @@ export class SearchProductsComponent implements OnInit {
       if (!res) {
         return;
       }
-      const options = res.map((suggestion) => {
-        // return <any>{
-        //   name: suggestion.q,
-        //   label: suggestion.q,
-        //   value: suggestion.q,
-        //   code: suggestion.q
-        // }
-        return suggestion.q
-      })
-      this.suggestions = [...options]
-      console.log(this.suggestions)
+      this.suggestions = res
     })
   }
 
-  public onSelectSuggestion(event) {
+  public selectSuggestion(event) {
     this.selectedValue = event;
     this._performSearch(this.selectedValue)
   }
@@ -55,7 +45,7 @@ export class SearchProductsComponent implements OnInit {
     }
   }
 
-  private _performSearch (query: string) {
+  private _performSearch(query: string) {
     this.productService.getItemsByTitle(query).subscribe((res) => {
       if (!res) {
         return;

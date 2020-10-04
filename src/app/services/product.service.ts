@@ -28,14 +28,10 @@ export class ProductService {
     this._selectedProduct = value;
   }
 
-  constructor(private requestService: ItemsRequestService) {
-    this.requestService.getSuggestedQueries('ipod').pipe(take(1)).subscribe((res: any) => {
-      console.log(res)
-    })
-  }
+  constructor(private requestService: ItemsRequestService) {}
 
   public getItemsByTitle(title: string): Observable<any> {
-    const params = { "title": title, };
+    const params = { "title": title };
 
     return this.requestService.getItems(params).pipe(take(1));
   }
@@ -43,9 +39,7 @@ export class ProductService {
   public getSuggestionsByQuery(query: string): Observable<any> {
     return this.requestService.getSuggestedQueries(query)
       .pipe(take(1))
-      .pipe(map(res => {
-        return res.suggested_queries;
-      }));
+      .pipe(map(res => res.suggested_queries));
     ;
   }
 
