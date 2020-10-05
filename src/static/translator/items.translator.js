@@ -1,11 +1,17 @@
 const _ = require("lodash");
+const ML_API = require("../constants/ml-api.constants");
 
 const fromItemRawToItemDTO = (input) => {
   if (!input) {
     return;
   }
 
-  const additionalFields = ['condition', 'pictures', 'address', 'available_quantity' ]
+  const additionalFields = [
+    "condition",
+    "pictures",
+    "address",
+    "available_quantity",
+  ];
 
   let output = {
     id: input.id,
@@ -21,11 +27,11 @@ const fromItemRawToItemDTO = (input) => {
     sold_quantity: input.sold_quantity,
   };
 
-  additionalFields.forEach(fieldName => {
+  additionalFields.forEach((fieldName) => {
     if (input[fieldName]) {
       output = { ...output, ...{ [fieldName]: input[fieldName] } };
     }
-  })
+  });
 
   return output;
 };
@@ -66,9 +72,20 @@ const fromAvailableFiltersToCategories = (availableFilters) => {
   return categories.map((item) => item.name);
 };
 
+const fromPicturesArrayToPicturesUrlArray = (pictures) => {
+  if (!pictures) {
+    return;
+  }
+
+  return pictures.map((pic) => {
+    return pic.secure_url;
+  });
+};
+
 module.exports = {
   fromItemRawToItemDTO,
   fromSellerToAuthor,
   fromCategoryToArray,
   fromAvailableFiltersToCategories,
+  fromPicturesArrayToSinglePicture: fromPicturesArrayToPicturesUrlArray,
 };

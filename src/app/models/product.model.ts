@@ -11,7 +11,7 @@ class Product {
     amount: Number
     decimals: Number
   }
-  picture?: string;
+  pictures?: string[];
   thumbnail?: string;
   condition: string;
   free_shipping: Boolean

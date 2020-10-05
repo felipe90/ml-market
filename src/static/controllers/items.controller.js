@@ -6,21 +6,26 @@ const itemsTranslator = require("../translator/items.translator");
 const getItems = async (req, res, next) => {
   try {
     const items = await itemService.getItemsByQuery(req.query.q);
+    if (!items) return;
 
     let itemsDTO = [];
     let itemsListDTO = {};
 
     for await (const item of items.results) {
-      let [seller, category] = await Promise.all([
+      let [seller, category, pictures] = await Promise.all([
         itemService.getItemSellerById(item.seller.id),
         itemService.getItemCategoryById(item.category_id),
+        itemService.getPicturesByItemId(item.id),
       ]).catch((error) => error);
 
       itemsDTO.push({
         ...itemsTranslator.fromItemRawToItemDTO(item),
         ...{ author: itemsTranslator.fromSellerToAuthor(seller) },
         ...{ categories: itemsTranslator.fromCategoryToArray(category) },
+        ...{ pictures: pictures },
+        ...{ pictures: itemsTranslator.fromPicturesArrayToSinglePicture(pictures)}
       });
+
     }
 
     itemsListDTO = {
@@ -43,6 +48,8 @@ const getItems = async (req, res, next) => {
 const getItem = async (req, res, next) => {
   try {
     const item = await itemService.getItemById(req.params.id);
+    if (!item) return;
+
     const [seller, desc] = await Promise.all([
       itemService.getItemSellerById(item.seller_id),
       itemService.getItemDescriptionById(item.id),
@@ -52,7 +59,11 @@ const getItem = async (req, res, next) => {
       ...{ item: itemsTranslator.fromItemRawToItemDTO(item) },
       ...{ author: itemsTranslator.fromSellerToAuthor(seller) },
       ...{ description: desc.plain_text },
-      ...{ attributes: item.attributes.map((attr) => attr.name) },
+      ...{
+        attributes: item.attributes
+          ? item.attributes.map((attr) => attr.name)
+          : {},
+      },
     };
 
     res.send(itemDTO);
