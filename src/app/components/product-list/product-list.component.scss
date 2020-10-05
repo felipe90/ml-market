@@ -1,0 +1,14 @@
+@import '~@angular/material/theming';
+
+:host {
+  display: block;
+  width: 80%;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+.product-list-item {
+  &:hover {
+    // @include mat-elevation(4);
+  }
+}

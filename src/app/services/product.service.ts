@@ -1,23 +1,31 @@
+import Product from '../models/product.model';
+import ProductsList from '../models/productsList.model';
 import { Injectable } from '@angular/core';
 import { ItemsRequestService } from './ItemsRequest.service';
 import { map, take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
+  public productsChange = new Subject<ProductsList>();
+  public onProductsChange: Observable<ProductsList> = this.productsChange.asObservable();
+  public selectedProductChange = new Subject<Product>();
+  public onSelectedProductChange: Observable<Product> = this.selectedProductChange.asObservable();
 
-  private _products = [];
+  private _productsList: ProductsList;
   private _selectedProduct;
+  private _searchQuery: string;
 
-  public get products(): any[] {
-    return [...this._products]
+  public get products(): ProductsList {
+    return {...this._productsList}
   }
 
-  public set products(value: any[]) {
-    this._products = [...value];
+  public set products(value: ProductsList) {
+    this._productsList = {...value};
+    this.productsChange.next(this._productsList);
   }
 
   public get selectedProduct(): any {
@@ -26,14 +34,24 @@ export class ProductService {
 
   public set selectedProduct(value: any) {
     this._selectedProduct = value;
+    this.selectedProductChange.next(this._selectedProduct);
   }
 
-  constructor(private requestService: ItemsRequestService) {}
+  public get searchQuery() : string {
+    return this._searchQuery;
+  }
 
-  public getItemsByTitle(title: string): Observable<any> {
+  public set searchQuery(v : string) {
+    this._searchQuery = v;
+  }
+
+  constructor(private requestService: ItemsRequestService) { }
+
+  public getProductListByTitle(title: string): Observable<any> {
     const params = { "title": title };
 
-    return this.requestService.getItems(params).pipe(take(1));
+    return this.requestService.getProductList(params)
+      .pipe(take(1));
   }
 
   public getSuggestionsByQuery(query: string): Observable<any> {
@@ -43,4 +61,10 @@ export class ProductService {
     ;
   }
 
+  public checkCacheSearch(query: string): boolean {
+    if (this.searchQuery === query )  {
+      return true;
+    }
+    this.searchQuery = query;
+  }
 }

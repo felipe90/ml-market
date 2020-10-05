@@ -16,7 +16,7 @@ export class ItemsRequestService {
 
   constructor(private http: HttpClient) { }
 
-  public getItems(params?: any): Observable<any> {
+  public getProductList(params?: any): Observable<any> {
     const query = params ? this.getParams(params) : '';
 
     return params ?

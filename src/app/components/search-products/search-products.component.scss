@@ -1,8 +1,11 @@
+@import '~@angular/material/theming';
+
 :host {
   display: block;
   width: 100%;
   background-color: #fff159;
   padding: 0.5rem 0;
+  @include mat-elevation(4);
 }
 
 .search-product-container {

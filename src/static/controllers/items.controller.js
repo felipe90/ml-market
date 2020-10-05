@@ -8,6 +8,7 @@ const getItems = async (req, res, next) => {
     const items = await itemService.getItemsByQuery(req.query.q);
 
     let itemsDTO = [];
+    let itemsListDTO = {};
 
     for await (const item of items.results) {
       let [seller, category] = await Promise.all([
@@ -16,19 +17,23 @@ const getItems = async (req, res, next) => {
       ]).catch((error) => error);
 
       itemsDTO.push({
-        ...{ item: itemsTranslator.fromItemRawToItemDTO(item) },
+        ...itemsTranslator.fromItemRawToItemDTO(item),
         ...{ author: itemsTranslator.fromSellerToAuthor(seller) },
         ...{ categories: itemsTranslator.fromCategoryToArray(category) },
-        ...{
-          relatedCategories: itemsTranslator.fromAvailableFiltersToCategories(
-            items.available_filters
-          ),
-        },
-        ...{ availableFilters: items.available_filters },
       });
     }
 
-    res.send(itemsDTO);
+    itemsListDTO = {
+      items: itemsDTO,
+      ...{
+        relatedCategories: itemsTranslator.fromAvailableFiltersToCategories(
+          items.available_filters
+        ),
+      },
+      ...{ availableFilters: items.available_filters },
+    };
+
+    res.send(itemsListDTO);
     next();
   } catch (error) {
     console.error("error", error);
