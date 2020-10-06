@@ -14,6 +14,7 @@ class Product {
   pictures?: string[];
   thumbnail?: string;
   condition: string;
+  address: any;
   free_shipping: Boolean
 }
 

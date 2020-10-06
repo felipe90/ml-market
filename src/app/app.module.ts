@@ -1,6 +1,7 @@
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { ButtonModule } from 'primeng/button';
@@ -15,6 +16,7 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { RelatedCategoriesComponent } from './components/related-categories/related-categories.component';
 import { SearchProductsComponent } from './components/search-products/search-products.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +36,8 @@ import { SearchProductsComponent } from './components/search-products/search-pro
     MatCardModule,
     MatButtonModule,
     MatButtonToggleModule,
-    MatDividerModule
+    MatDividerModule,
+    BreadcrumbModule,
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

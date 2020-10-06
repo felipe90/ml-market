@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 
 :host {
   display: block;
@@ -7,8 +7,8 @@
   padding: 1rem 0;
 }
 
-.product-list-item {
-  &:hover {
-    // @include mat-elevation(4);
-  }
+.product-list {
+  margin: 1rem 0;
+  cursor: pointer;
 }
+

@@ -1,19 +1,21 @@
-<app-related-categories></app-related-categories>
-<mat-card>
-  <mat-list>
-    <mat-list-item
-      *ngFor="let product of products"
-      class="product-list-item">
-      <img
-        mat-card-image
-        [src]="product.pictures[0]"
-        alt="XXX"
-      />
-      <h3>{{product.price?.amount}} {{product.price?.currency}}</h3>
-      <h2>{{product.title}}</h2>
-      <p>{{product.title}}</p>
-      <h3>location</h3>
-      <mat-divider></mat-divider>
-    </mat-list-item>
-  </mat-list>
-</mat-card>
+<app-related-categories
+  [isDetail]="false"
+  [relatedCategories]="relatedCategories"
+></app-related-categories>
+<section *ngIf="products.length > 0" class="product-list">
+  <mat-card>
+    <mat-list>
+      <mat-list-item *ngFor="let product of products">
+        <section class="product-list-item">
+          <img mat-card-image [src]="product.pictures[0]" alt="XXX" />
+          <h3>{{ product.price?.amount }} {{ product.price?.currency }}</h3>
+          <h2>{{ product.title }}</h2>
+          <p>{{ product.title }}</p>
+          <h3>{{ product?.address.city_name }}</h3>
+          <h3>{{ product?.address.state_name }}</h3>
+        </section>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+</section>

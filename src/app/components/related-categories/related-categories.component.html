@@ -1,4 +1,7 @@
-<strong>Búsquedas relacionadas</strong>
-<!-- <ul>
-  <li></li>
-</ul> -->
+<section *ngIf="relatedCategories.length > 0" class="related-categories">
+  <p-breadcrumb
+    [model]="relatedCategories"
+    [home]="indexCategory"
+    (onItemClick)="selectCategory($event)"
+  ></p-breadcrumb>
+</section>
