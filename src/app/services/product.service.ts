@@ -3,6 +3,7 @@ import ProductsList from '../models/productsList.model';
 import { Injectable } from '@angular/core';
 import { ItemsRequestService } from './ItemsRequest.service';
 import { map, take } from 'rxjs/operators';
+import { MenuItem } from 'primeng/api';
 import { Observable, Subject } from 'rxjs';
 
 
@@ -20,11 +21,11 @@ export class ProductService {
   private _searchQuery: string;
 
   public get products(): ProductsList {
-    return {...this._productsList}
+    return { ...this._productsList }
   }
 
   public set products(value: ProductsList) {
-    this._productsList = {...value};
+    this._productsList = { ...value };
     this.productsChange.next(this._productsList);
   }
 
@@ -37,11 +38,11 @@ export class ProductService {
     this.selectedProductChange.next(this._selectedProduct);
   }
 
-  public get searchQuery() : string {
+  public get searchQuery(): string {
     return this._searchQuery;
   }
 
-  public set searchQuery(v : string) {
+  public set searchQuery(v: string) {
     this._searchQuery = v;
   }
 
@@ -61,10 +62,29 @@ export class ProductService {
     ;
   }
 
+  /**
+   * Check if search query was performed
+   */
   public checkCacheSearch(query: string): boolean {
-    if (this.searchQuery === query )  {
+    if (this.searchQuery === query) {
       return true;
     }
     this.searchQuery = query;
+  }
+
+  /**
+   * Get categories and parse them to work as navigation link
+   */
+  public getRelatedCategories(categories: string[]): any {
+    if (!categories) return;
+
+    return categories
+      .map((cat) => {
+        const parsedUrl = cat.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+        return <MenuItem>{
+          label: cat,
+          url: `/items?search=${parsedUrl}`
+        }
+      });
   }
 }

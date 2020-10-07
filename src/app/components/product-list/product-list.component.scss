@@ -7,8 +7,41 @@
   padding: 1rem 0;
 }
 
-.product-list {
-  margin: 1rem 0;
-  cursor: pointer;
+.mat-card {
+  padding: 0;
 }
 
+.product-list {
+  margin: 1rem 0;
+}
+
+.product-list-item {
+  display: flex;
+  padding: 1rem;
+}
+
+.item-price {
+  display: flex;
+  align-items: center;
+  h3 {
+    margin: 0;
+  }
+}
+
+.item-img {
+  text-align: center;
+  img {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+.item-props {
+  margin: 1.5rem 1rem;
+  width: 60%;
+}
+
+.item-location {
+  width: 30%;
+  padding: 2rem 0;
+}

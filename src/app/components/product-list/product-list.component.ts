@@ -27,23 +27,12 @@ export class ProductListComponent implements OnInit, OnDestroy {
       .subscribe((productsList: ProductsList) => {
         this.productsList = productsList;
         this.products = productsList.items;
-        this.relatedCategories = this.getRelatedCategories(productsList.items[0]);
+        this.relatedCategories = this.productService
+          .getRelatedCategories(productsList.items[0].categories);
       }))
   }
 
   ngOnDestroy(): void {
     this._subscriptions.forEach(s => s.unsubscribe())
-  }
-
-  public getRelatedCategories(item: Product): any {
-    if (!item) return;
-
-    return item.categories.map((cat) => {
-      const parsedUrl = cat.normalize('NFD').replace(/[\u0300-\u036f]/g,"")
-      return <MenuItem>{
-        label: cat,
-        url: `/items?search=${parsedUrl}`
-      }
-    });
   }
 }

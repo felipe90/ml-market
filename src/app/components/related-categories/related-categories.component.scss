@@ -2,3 +2,13 @@
   display: block;
   margin: 0 auto;
 }
+
+::ng-deep .breadcrumb .p-breadcrumb {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+
+  ul li:last-child .p-menuitem-link .p-menuitem-text {
+    font-weight: bold;
+  }
+}

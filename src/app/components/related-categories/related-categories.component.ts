@@ -1,6 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { MenuItem } from 'primeng/api';
 
 @Component({
@@ -11,16 +10,18 @@ import { MenuItem } from 'primeng/api';
 export class RelatedCategoriesComponent implements OnInit {
 
   @Input() relatedCategories: MenuItem[] = [];
+  @Input() isDetailView: boolean = false;
   public indexCategory: MenuItem;
 
   constructor(
-    private location: Location,
     private route: ActivatedRoute,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.indexCategory = { label: `Búsquedas relacionadas`, disabled: true };
+    this.indexCategory = this.isDetailView ?
+    { label: `Búsquedas relacionadas`, disabled: true } :
+    { label: `También puede interesarte`, disabled: true };
   }
 
   public selectCategory(event) {

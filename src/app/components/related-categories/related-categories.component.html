@@ -1,5 +1,6 @@
 <section *ngIf="relatedCategories.length > 0" class="related-categories">
   <p-breadcrumb
+    class="breadcrumb"
     [model]="relatedCategories"
     [home]="indexCategory"
     (onItemClick)="selectCategory($event)"
