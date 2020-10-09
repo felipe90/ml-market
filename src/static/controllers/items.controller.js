@@ -23,9 +23,11 @@ const getItems = async (req, res, next) => {
         ...{ author: itemsTranslator.fromSellerToAuthor(seller) },
         ...{ categories: itemsTranslator.fromCategoryToArray(category) },
         ...{ pictures: pictures },
-        ...{ pictures: itemsTranslator.fromPicturesArrayToSinglePicture(pictures)}
+        ...{
+          pictures: itemsTranslator.fromPicturesArrayToSinglePicture(pictures),
+        },
       });
-
+      console.log("----[Item-Request] DONE----");
     }
 
     itemsListDTO = {
@@ -38,6 +40,7 @@ const getItems = async (req, res, next) => {
       ...{ availableFilters: items.available_filters },
     };
 
+    console.log("----[Items-Request] DONE----");
     res.send(itemsListDTO);
     next();
   } catch (error) {
@@ -50,22 +53,25 @@ const getItem = async (req, res, next) => {
     const item = await itemService.getItemById(req.params.id);
     if (!item) return;
 
-    const [seller, desc] = await Promise.all([
+    const [seller, category, desc] = await Promise.all([
       itemService.getItemSellerById(item.seller_id),
+      itemService.getItemCategoryById(item.category_id),
       itemService.getItemDescriptionById(item.id),
     ]).catch((error) => console.log(`Error in executing ${error}`));
 
     const itemDTO = {
-      ...{ item: itemsTranslator.fromItemRawToItemDTO(item) },
+      ...itemsTranslator.fromItemRawToItemDTO(item),
       ...{ author: itemsTranslator.fromSellerToAuthor(seller) },
-      ...{ description: desc.plain_text },
+      ...{ description: desc ? desc.plain_text : "" },
+      ...{ categories: itemsTranslator.fromCategoryToArray(category) },
       ...{
         attributes: item.attributes
-          ? item.attributes.map((attr) => attr.name)
+          ? item.attributes.map((attr) => `${attr.name} - ${attr.value_name}`)
           : {},
       },
     };
 
+    console.log("----[Item-Request] DONE----");
     res.send(itemDTO);
     next();
   } catch (error) {

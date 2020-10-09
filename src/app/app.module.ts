@@ -7,6 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ButtonModule } from 'primeng/button';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { GalleriaModule } from 'primeng/galleria';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -16,7 +17,6 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { RelatedCategoriesComponent } from './components/related-categories/related-categories.component';
 import { SearchProductsComponent } from './components/search-products/search-products.component';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +38,7 @@ import { SearchProductsComponent } from './components/search-products/search-pro
     MatButtonToggleModule,
     MatDividerModule,
     BreadcrumbModule,
+    GalleriaModule
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ProductService } from './services/product.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'ml-market';
 }

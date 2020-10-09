@@ -23,7 +23,7 @@ export class ItemsRequestService {
       this.http.get(`http://${this.API_URL}${config.productsEndpoint}=${query}`) : this.http.get(`${this.API_URL}${config.productsEndpoint}`);
   }
 
-  public getItem(itemId: string): Observable<any> {
+  public getProduct(itemId: string): Observable<any> {
     return this.http.get(`http://${this.API_URL}${config.productEndpoint}/${itemId}`)
   }
 

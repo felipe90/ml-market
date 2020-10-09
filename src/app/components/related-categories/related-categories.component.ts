@@ -20,8 +20,8 @@ export class RelatedCategoriesComponent implements OnInit {
 
   ngOnInit(): void {
     this.indexCategory = this.isDetailView ?
-    { label: `Búsquedas relacionadas`, disabled: true } :
-    { label: `También puede interesarte`, disabled: true };
+      { label: `También puede interesarte`, disabled: true } :
+      { label: `Búsquedas relacionadas`, disabled: true }
   }
 
   public selectCategory(event) {

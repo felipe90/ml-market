@@ -1,42 +1,53 @@
-<app-related-categories
-  [relatedCategories]="relatedCategories"
-></app-related-categories>
-<section *ngIf="products.length > 0" class="product-list">
-  <mat-card>
-    <mat-list>
-      <mat-list-item *ngFor="let product of products" routerLinkActive="active">
-        <section class="product-list-item">
-          <a class="item-img" [routerLink]="['/items', product.id]">
-            <img
-              [src]="product.pictures[0]"
-              alt="{{ product.title }}"
-            />
-          </a>
-          <section class="item-props">
-            <section class="item-price">
-              <h3>
-                {{
-                  product.price?.amount
-                    | currency: product.price.currency:"symbol-narrow":"4.0"
-                }}
-              </h3>
-              <i *ngIf="product.free_shipping" aria-label="free-shipping">
-                shipping
-              </i>
+<section *ngIf="isLoading === false">
+  <app-related-categories
+    [isDetailView]="false"
+    [relatedCategories]="relatedCategories"
+  ></app-related-categories>
+  <section *ngIf="products.length > 0" class="product-list">
+    <mat-card>
+      <mat-list>
+        <mat-list-item
+          *ngFor="let product of products"
+          routerLinkActive="active"
+        >
+          <section class="product-list-item">
+            <a class="item-img" [routerLink]="['/items', product.id]">
+              <img [src]="product.pictures[0]" alt="{{ product.title }}" />
+            </a>
+            <section class="item-props">
+              <section class="item-price">
+                <h3>
+                  {{
+                    product.price?.amount
+                      | currency: product.price.currency:"symbol-narrow":"4.0"
+                  }}
+                </h3>
+                <img
+                  src="assets/img/ic_shipping.png"
+                  *ngIf="product.free_shipping"
+                  aria-label="free-shipping"
+                  alt="{{ product.title }}" />
+              </section>
+              <h2>{{ product.title }}</h2>
+              <p>{{ product.title }}</p>
+              <p *ngIf="product.condition">
+                {{ product.condition === "new" ? "Nuevo" : null }}
+                {{ product.condition === "used" ? "Usado" : null }}
+              </p>
             </section>
-            <h2>{{ product.title }}</h2>
-            <p>{{ product.title }}</p>
-            <p *ngIf="product.condition">
-              {{ product.condition === "new" ? "Nuevo" : null }}
-              {{ product.condition === "used" ? "Usado" : null }}
-            </p>
+            <section class="item-location">
+              <h3>
+                {{ product?.address.city_name }},
+                {{ product?.address.state_name }}
+              </h3>
+            </section>
           </section>
-          <section class="item-location">
-            <h3>{{ product?.address.city_name }}, {{ product?.address.state_name }}</h3>
-          </section>
-        </section>
-        <mat-divider></mat-divider>
-      </mat-list-item>
-    </mat-list>
-  </mat-card>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+  </section>
 </section>
+<span class="loading-icon" *ngIf="isLoading === true">
+  <i class="pi pi-spin pi-spinner "> </i>
+</span>
