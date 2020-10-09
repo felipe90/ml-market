@@ -20,6 +20,8 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
     private location: Location,
     private productService: ProductService,
     private route: ActivatedRoute,
+    private router: Router
+
   ) { }
 
   ngOnInit(): void {
@@ -28,7 +30,7 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
 
       if (params.search) {
         this._wasSearchedByUrl = true;
-        this._performSearch(params.search, true);
+        // this._performSearch(params.search, true);
         this.setSuggestion(params.search)
       }
     }));
@@ -57,7 +59,8 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
 
     // User should press "Enter" after search or click on search icon
     if ((event.type === "keyup" && event.keyCode === 13) || event.type === "click") {
-      this._performSearch(this.selectedValue)
+      // this._performSearch(this.selectedValue)
+      this.router.navigate([`/items?search=${this.selectedValue}`], { relativeTo: this.route })
     }
   }
 
@@ -67,9 +70,9 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
     this.productService.getProductListByTitle(query).subscribe((res) => {
       if (!res) return;
 
-      if (!wasSearchedByUrl) {
-        this.location.go(`/items?search=${query}`);
-      }
+      // if (!wasSearchedByUrl) {
+        // this.location.go(`/items?search=${query}`);
+      // }
       this.productService.products = res;
     });
   }

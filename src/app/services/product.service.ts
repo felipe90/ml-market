@@ -47,8 +47,6 @@ export class ProductService {
   }
 
   public set isLoading(v: boolean) {
-    console.log(v)
-
     this._isLoading = v;
     this.loadingChange.next(this._isLoading);
   }

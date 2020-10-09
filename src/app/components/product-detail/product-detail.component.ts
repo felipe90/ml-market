@@ -1,7 +1,12 @@
 import Image from 'src/app/models/image.model';
 import Product from 'src/app/models/product.model';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit
+  } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { ProductService } from 'src/app/services/product.service';
 import { Subscription } from 'rxjs';
@@ -12,8 +17,14 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./product-detail.component.scss']
 })
 export class ProductDetailComponent implements OnInit, OnDestroy {
+  @HostListener('window:scroll', ['$event'])
+  checkScroll() {
+    this.isSticky = window.pageYOffset >= 250;
+  }
+
   public product: Product;
   public isLoading: boolean;
+  public isSticky: boolean = false;
   public images: Image[];
   public relatedCategories: MenuItem[] = [];
   public responsiveOptions: any[] = [
@@ -43,10 +54,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     this._subscriptions.set('route-sub', this.route.paramMap.subscribe((map) => {
       if (!map['params']) return;
 
-      console.log(map['params'].id)
       if (map['params'].id) {
       this._performSearch(map['params'].id, true);
-        //   this.setSuggestion(params.search)
       }
     }));
 
@@ -55,7 +64,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         this.product = product;
         this.relatedCategories = this.productService
           .getRelatedCategories(product.categories);
-        console.log(this.relatedCategories)
         this.images = this.productService.fromPicturesRawArrayToImages(product.pictures, product)
         this._changeLoadingState(false);
       }))
