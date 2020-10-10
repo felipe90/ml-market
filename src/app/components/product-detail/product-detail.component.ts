@@ -7,6 +7,8 @@ import {
   OnDestroy,
   OnInit
   } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Inject } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { ProductService } from 'src/app/services/product.service';
 import { Subscription } from 'rxjs';
@@ -21,6 +23,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   checkScroll() {
     this.isSticky = window.pageYOffset >= 250;
   }
+
+  get window(): Window { return this.document.defaultView; }
 
   public product: Product;
   public isLoading: boolean;
@@ -47,15 +51,15 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
-  ) { }
 
-  ngOnInit(): void {
-    this._changeLoadingState(true);
+    @Inject(DOCUMENT) readonly document: Document
+  ) {
+
     this._subscriptions.set('route-sub', this.route.paramMap.subscribe((map) => {
       if (!map['params']) return;
 
       if (map['params'].id) {
-      this._performSearch(map['params'].id, true);
+        this._performRequest(map['params'].id);
       }
     }));
 
@@ -69,15 +73,29 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       }))
   }
 
+  ngOnInit(): void {
+
+  }
+
   ngOnDestroy(): void {
     this._subscriptions.forEach(s => s.unsubscribe())
   }
 
-  private _performSearch(query: string, wasSearchedByUrl = false) {
+  public buyProduct(product: Product) {
+    if (!product.permalink) return
+
+    // Open product real link
+    this.window.open(product.permalink, '_blank')
+  }
+
+  private _performRequest(query: string) {
+    this._changeLoadingState(true);
+
     this.productService.getProductById(query).subscribe((res) => {
       if (!res) return;
 
       this.productService.selectedProduct = res;
+      this._changeLoadingState(false);
     });
   }
 

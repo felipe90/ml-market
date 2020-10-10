@@ -12,43 +12,31 @@ import { Observable, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductService {
-  public productsChange = new Subject<ProductsList>();
-  public onProductsChange: Observable<ProductsList> = this.productsChange.asObservable();
-  public selectedProductChange = new Subject<Product>();
-  public onSelectedProductChange: Observable<Product> = this.selectedProductChange.asObservable();
-  public loadingChange = new Subject<boolean>();
-  public onLoadingChange: Observable<boolean> = this.loadingChange.asObservable();
-
   private _productsList: ProductsList;
   private _selectedProduct;
   private _searchQuery: string;
-  private _isLoading: boolean;
 
-  public get products(): ProductsList {
+  public selectedProductChange = new Subject<Product>();
+  public onSelectedProductChange: Observable<Product> = this.selectedProductChange.asObservable();
+  public searchQueryChange = new Subject<string>();
+  public onSearchQueryChange: Observable<string> = this.searchQueryChange.asObservable();
+
+
+  public get productsList(): ProductsList {
     return { ...this._productsList }
   }
 
-  public set products(value: ProductsList) {
+  public set productsList(value: ProductsList) {
     this._productsList = { ...value };
-    this.productsChange.next(this._productsList);
   }
 
-  public get selectedProduct(): any {
+  public get selectedProduct(): Product {
     return this._selectedProduct
   }
 
-  public set selectedProduct(value: any) {
+  public set selectedProduct(value: Product) {
     this._selectedProduct = value;
     this.selectedProductChange.next(this._selectedProduct);
-  }
-
-  public get isLoading(): boolean {
-    return this._isLoading;
-  }
-
-  public set isLoading(v: boolean) {
-    this._isLoading = v;
-    this.loadingChange.next(this._isLoading);
   }
 
   public get searchQuery(): string {
@@ -57,6 +45,7 @@ export class ProductService {
 
   public set searchQuery(v: string) {
     this._searchQuery = v;
+    this.searchQueryChange.next(this._searchQuery);
   }
 
   constructor(private requestService: ItemsRequestService) { }

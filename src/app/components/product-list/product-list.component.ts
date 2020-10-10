@@ -1,5 +1,6 @@
 import Product from 'src/app/models/product.model';
 import ProductsList from 'src/app/models/productsList.model';
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { ProductService } from 'src/app/services/product.service';
@@ -12,7 +13,6 @@ import { Subscription } from 'rxjs';
 })
 export class ProductListComponent implements OnInit, OnDestroy {
   public products: Product[] = [];
-  public productsList: ProductsList = null;
   public relatedCategories: MenuItem[] = [];
   public isLoading: boolean;
 
@@ -20,23 +20,51 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   constructor(
     private productService: ProductService,
-  ) { }
+    private route: ActivatedRoute,
+  ) {
 
-  ngOnInit(): void {
-    this._changeLoadingState(true);
+    this._subscriptions.set('route-sub', this.route.queryParamMap.subscribe((map) => {
+      if (!map) return;
 
-    this._subscriptions.set('products-sub', this.productService.productsChange
+      this._initLocalProductsRef();
+
+      if (map['params']) {
+        this._performRequest(map['params'].search);
+      }
+    }));
+
+    this._subscriptions.set('search-sub', this.productService.onSearchQueryChange.subscribe((query: string) => {
+      if (!query) return;
+
+      this._performRequest(query);
+    }));
+
+  }
+
+  ngOnInit(): void { }
+
+  ngOnDestroy(): void {
+    this._subscriptions.forEach(s => s.unsubscribe())
+  }
+
+  private _initLocalProductsRef () {
+    this.productService.productsList = new ProductsList();
+    this.products = [];
+    this.relatedCategories = [];
+  }
+
+  private _performRequest(query: string) {
+    if (!query) return;
+    this._changeLoadingState(true)
+
+    this.productService.getProductListByTitle(query)
       .subscribe((productsList: ProductsList) => {
-        this.productsList = productsList;
+        this.productService.productsList = productsList;
         this.products = productsList.items;
         this.relatedCategories = this.productService
           .getRelatedCategories(productsList.items[0].categories);
         this._changeLoadingState(false);
-      }))
-  }
-
-  ngOnDestroy(): void {
-    this._subscriptions.forEach(s => s.unsubscribe())
+      })
   }
 
   private _changeLoadingState(state: boolean) {

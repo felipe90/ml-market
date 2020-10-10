@@ -20,6 +20,7 @@ class Product {
   sold_quantity?: number;
   available_quantity?: number;
   attributes?: string[];
+  permalink?: string;
 }
 
 export default Product;

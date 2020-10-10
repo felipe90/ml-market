@@ -1,6 +1,5 @@
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { ProductService } from 'src/app/services/product.service';
 import { Subscription } from 'rxjs';
 @Component({
@@ -10,28 +9,25 @@ import { Subscription } from 'rxjs';
 })
 export class SearchProductsComponent implements OnInit, OnDestroy {
 
+  readonly ITEMS_URL = '/items?search=';
+
   public selectedValue;
   public suggestions = [];
 
   private _subscriptions: Map<string, Subscription> = new Map();
-  private _wasSearchedByUrl = false;
 
   constructor(
-    private location: Location,
     private productService: ProductService,
     private route: ActivatedRoute,
     private router: Router
-
   ) { }
 
   ngOnInit(): void {
-    this._subscriptions.set('route-sub', this.route.queryParams.subscribe((params) => {
-      if (!params) return;
+    this._subscriptions.set('route-sub', this.route.queryParamMap.subscribe((map) => {
+      if (!map) return;
 
-      if (params.search) {
-        this._wasSearchedByUrl = true;
-        // this._performSearch(params.search, true);
-        this.setSuggestion(params.search)
+      if (map['params']) {
+        this.setSuggestion(map['params'].search)
       }
     }));
   }
@@ -50,7 +46,10 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
   }
 
   public setSuggestion(event) {
+    if (!event) return;
+
     this.selectedValue = event;
+    console.log(this.selectedValue)
     this._performSearch(this.selectedValue)
   }
 
@@ -59,22 +58,21 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
 
     // User should press "Enter" after search or click on search icon
     if ((event.type === "keyup" && event.keyCode === 13) || event.type === "click") {
-      // this._performSearch(this.selectedValue)
-      this.router.navigate([`/items?search=${this.selectedValue}`], { relativeTo: this.route })
+      this._performSearch(this.selectedValue)
     }
   }
 
-  private _performSearch(query: string, wasSearchedByUrl = false) {
-    if (this.productService.checkCacheSearch(query)) return;
+  public goToHome() {
+    this.selectedValue = '';
+    this.router.navigate(['/'], { relativeTo: this.route });
+  }
 
-    this.productService.getProductListByTitle(query).subscribe((res) => {
-      if (!res) return;
+  private _performSearch(query: string) {
+    if (!query || this.productService.checkCacheSearch(query)) return;
+    const url = `${this.ITEMS_URL}${query}`;
 
-      // if (!wasSearchedByUrl) {
-        // this.location.go(`/items?search=${query}`);
-      // }
-      this.productService.products = res;
-    });
+    this.productService.searchQuery = query;
+    this.router.navigateByUrl(url, { relativeTo: this.route });
   }
 
 }
