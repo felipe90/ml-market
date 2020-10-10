@@ -1,8 +1,9 @@
 @import "~@angular/material/theming";
+@import "/src/variables.scss";
 
 :host {
   display: block;
-  width: 80%;
+  width: $content-container-width;
   margin: 0 auto;
   padding: 1rem 0;
 }
