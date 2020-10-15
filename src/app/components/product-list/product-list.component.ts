@@ -24,10 +24,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ) {
 
     this.subscriptions.set('route-sub', this.route.queryParamMap.subscribe((map: ParamMap) => {
-      if (!map.has('search')) return;
-
       this._initLocalProductsRef();
-      this._performRequest(map.get('search'));
+
+      if (map.has('search')) {
+        this._performRequest(map.get('search'));
+      }
     }));
 
     this.subscriptions.set('search-sub', this.productService.onSearchQueryChange.subscribe((query: string) => {
