@@ -25,7 +25,6 @@
 .item-img {
   grid-column: 1 / 1;
   grid-row: 1 / 1;
-
   padding: 1rem;
   margin: 0 auto;
   max-width: 100%;
@@ -41,6 +40,7 @@
   .item-price {
     display: flex;
     align-items: center;
+
     h3 {
       margin-right: 0.5rem;
       font-size: 44px;
@@ -56,11 +56,13 @@
 
   .item-attrs {
     margin: 1rem 0;
+
     .item-attrs-wrapper {
       overflow: overlay;
       display: block;
       height: 30vh;
     }
+
     p {
       color: $font-color;
       margin: 0.15rem 0;
@@ -68,7 +70,7 @@
   }
 
   .buy-btn {
-    margin: 2rem 0 0 0;
+    margin: 2rem 0 0;
     width: 100%;
   }
 }
@@ -84,13 +86,14 @@
 
 .item-desc {
   padding: 1rem 0;
-
   grid-column: 1 / 2;
   grid-row: 2 / 2;
+
   h2 {
     font-weight: 600;
     font-size: 24px;
   }
+
   p {
     margin: 1rem;
     line-height: 1.35;

@@ -24,9 +24,11 @@
 .item-price {
   display: flex;
   align-items: center;
+
   h3 {
     margin: 0;
   }
+
   img {
     margin: 0 0.5rem;
   }
@@ -34,6 +36,7 @@
 
 .item-img {
   text-align: center;
+
   img {
     width: 200px;
     height: 200px;

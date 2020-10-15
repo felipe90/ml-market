@@ -2,11 +2,11 @@
 @import "/src/variables.scss";
 
 :host {
+  @include mat-elevation(4);
   display: block;
   width: 100%;
   background-color: $search-bar-color;
   padding: 0.5rem 0;
-  @include mat-elevation(4);
 }
 
 .search-product-container {
@@ -33,20 +33,24 @@
     background-color: $search-btn-background-color;
     color: $font-color;
     border: 1px $search-btn-background-color solid;
-
-    .p-button {
-      background-color: $search-btn-background-color;
-    }
-    .p-button:enabled:hover {
-      background-color: $font-color;
-    }
-    .p-button:enabled:hover .p-button-icon {
-      color: $search-btn-background-color;
-    }
   }
 
   .p-autocomplete .p-inputtext {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+  }
+}
+
+::ng-deep .search-autocomplete .search-button {
+  .p-button {
+    background-color: $search-btn-background-color;
+  }
+
+  .p-button:enabled:hover {
+    background-color: $font-color;
+  }
+
+  .p-button:enabled:hover .p-button-icon {
+    color: $search-btn-background-color;
   }
 }
