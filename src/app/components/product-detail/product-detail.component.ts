@@ -1,6 +1,6 @@
 import Image from 'src/app/models/image.model';
 import Product from 'src/app/models/product.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import {
   Component,
   HostListener,
@@ -19,16 +19,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./product-detail.component.scss']
 })
 export class ProductDetailComponent implements OnInit, OnDestroy {
-  @HostListener('window:scroll', ['$event'])
-  checkScroll() {
-    this.isSticky = window.pageYOffset >= 250;
-  }
-
-  get window(): Window { return this.document.defaultView; }
-
   public product: Product;
   public isLoading: boolean;
-  public isSticky: boolean = false;
+  public isSticky = false;
   public images: Image[];
   public relatedCategories: MenuItem[] = [];
   public responsiveOptions: any[] = [
@@ -46,7 +39,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     }
   ];
 
-  private _subscriptions: Map<string, Subscription> = new Map();
+  private subscriptions: Map<string, Subscription> = new Map();
+
+  @HostListener('window:scroll', ['$event'])
+  checkScroll(): void {
+    this.isSticky = window.pageYOffset >= 250;
+  }
+
+  get window(): Window { return this.document.defaultView; }
 
   constructor(
     private productService: ProductService,
@@ -55,22 +55,20 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) readonly document: Document
   ) {
 
-    this._subscriptions.set('route-sub', this.route.paramMap.subscribe((map) => {
-      if (!map['params']) return;
+    this.subscriptions.set('route-sub', this.route.paramMap.subscribe((map: ParamMap) => {
+      if (!map.has('id')) return;
 
-      if (map['params'].id) {
-        this._performRequest(map['params'].id);
-      }
+      this._performRequest(map.get('id'));
     }));
 
-    this._subscriptions.set('products-sub', this.productService.onSelectedProductChange
+    this.subscriptions.set('products-sub', this.productService.onSelectedProductChange
       .subscribe((product: Product) => {
         this.product = product;
         this.relatedCategories = this.productService
           .getRelatedCategories(product.categories);
-        this.images = this.productService.fromPicturesRawArrayToImages(product.pictures, product)
+        this.images = this.productService.fromPicturesRawArrayToImages(product.pictures, product);
         this._changeLoadingState(false);
-      }))
+      }));
   }
 
   ngOnInit(): void {
@@ -78,17 +76,17 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._subscriptions.forEach(s => s.unsubscribe())
+    this.subscriptions.forEach(s => s.unsubscribe());
   }
 
-  public buyProduct(product: Product) {
-    if (!product.permalink) return
+  public buyProduct(product: Product): void {
+    if (!product.permalink) return;
 
     // Open product real link
-    this.window.open(product.permalink, '_blank')
+    this.window.open(product.permalink, '_blank');
   }
 
-  private _performRequest(query: string) {
+  private _performRequest(query: string): void {
     this._changeLoadingState(true);
 
     this.productService.getProductById(query).subscribe((res) => {
@@ -99,7 +97,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  private _changeLoadingState(state: boolean) {
+  private _changeLoadingState(state: boolean): void {
     this.isLoading = state;
   }
 

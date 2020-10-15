@@ -14,7 +14,7 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
   public selectedValue;
   public suggestions = [];
 
-  private _subscriptions: Map<string, Subscription> = new Map();
+  private subscriptions: Map<string, Subscription> = new Map();
 
   constructor(
     private productService: ProductService,
@@ -23,17 +23,15 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this._subscriptions.set('route-sub', this.route.queryParamMap.subscribe((map) => {
-      if (!map) return;
+    this.subscriptions.set('route-sub', this.route.queryParamMap.subscribe((map: ParamMap) => {
+      if (!map.has('search')) return;
 
-      if (map['params']) {
-        this.setSuggestion(map['params'].search)
-      }
+      this.setSuggestion(map.get('search'));
     }));
   }
 
   ngOnDestroy(): void {
-    this._subscriptions.forEach(s => s.unsubscribe())
+    this.subscriptions.forEach(s => s.unsubscribe());
   }
 
   public searchSuggestions(event): void {
@@ -41,33 +39,32 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
     this.productService.getSuggestionsByQuery(query).subscribe((res) => {
       if (!res) return;
 
-      this.suggestions = res.map(suggestion => suggestion.q)
-    })
+      this.suggestions = res.map(suggestion => suggestion.q);
+    });
   }
 
-  public setSuggestion(event) {
+  public setSuggestion(event): void {
     if (!event) return;
 
     this.selectedValue = event;
-    console.log(this.selectedValue)
-    this._performSearch(this.selectedValue)
+    this._performSearch(this.selectedValue);
   }
 
-  public searchProducts(event) {
+  public searchProducts(event): void {
     if (!this.selectedValue) return;
 
     // User should press "Enter" after search or click on search icon
-    if ((event.type === "keyup" && event.keyCode === 13) || event.type === "click") {
-      this._performSearch(this.selectedValue)
+    if ((event.type === 'keyup' && event.keyCode === 13) || event.type === 'click') {
+      this._performSearch(this.selectedValue);
     }
   }
 
-  public goToHome() {
+  public goToHome(): void {
     this.selectedValue = '';
     this.router.navigate(['/'], { relativeTo: this.route });
   }
 
-  private _performSearch(query: string) {
+  private _performSearch(query: string): void {
     if (!query || this.productService.checkCacheSearch(query)) return;
     const url = `${this.ITEMS_URL}${query}`;
 

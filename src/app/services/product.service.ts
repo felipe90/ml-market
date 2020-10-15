@@ -7,11 +7,11 @@ import { map, take } from 'rxjs/operators';
 import { MenuItem } from 'primeng/api';
 import { Observable, Subject } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
+
   private _productsList: ProductsList;
   private _selectedProduct;
   private _searchQuery: string;
@@ -23,7 +23,7 @@ export class ProductService {
 
 
   public get productsList(): ProductsList {
-    return { ...this._productsList }
+    return { ...this._productsList };
   }
 
   public set productsList(value: ProductsList) {
@@ -31,7 +31,7 @@ export class ProductService {
   }
 
   public get selectedProduct(): Product {
-    return this._selectedProduct
+    return this._selectedProduct;
   }
 
   public set selectedProduct(value: Product) {
@@ -51,7 +51,7 @@ export class ProductService {
   constructor(private requestService: ItemsRequestService) { }
 
   public getProductListByTitle(title: string): Observable<any> {
-    const params = { "title": title };
+    const params = { title };
 
     return this.requestService.getProductList(params)
       .pipe(take(1));
@@ -66,7 +66,7 @@ export class ProductService {
     return this.requestService.getSuggestedQueries(query)
       .pipe(take(1))
       .pipe(map(res => res.suggested_queries));
-    ;
+
   }
 
   /**
@@ -87,11 +87,11 @@ export class ProductService {
 
     return categories
       .map((cat) => {
-        const parsedUrl = cat.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
-        return <MenuItem>{
+        const parsedUrl = cat.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        return {
           label: cat,
           url: `/items?search=${parsedUrl}`
-        }
+        } as MenuItem;
       });
   }
 
@@ -104,12 +104,12 @@ export class ProductService {
 
     return pictures
       .map((img, index) => {
-        return <Image>{
+        return {
           title: `${product.title}_${index}`,
           thumbnailImageSrc: img.secure_url,
           previewImageSrc: img.secure_url,
           alt: `${product.title}_${index}`
-        }
+        } as Image;
       });
   }
 }

@@ -10,7 +10,7 @@ import { MenuItem } from 'primeng/api';
 export class RelatedCategoriesComponent implements OnInit {
 
   @Input() relatedCategories: MenuItem[] = [];
-  @Input() isDetailView: boolean = false;
+  @Input() isDetailView = false;
   public indexCategory: MenuItem;
 
   constructor(
@@ -21,10 +21,10 @@ export class RelatedCategoriesComponent implements OnInit {
   ngOnInit(): void {
     this.indexCategory = this.isDetailView ?
       { label: `También puede interesarte`, disabled: true } :
-      { label: `Búsquedas relacionadas`, disabled: true }
+      { label: `Búsquedas relacionadas`, disabled: true };
   }
 
-  public selectCategory(event) {
+  public selectCategory(event): void {
     this.router.navigate([event.item.url], { relativeTo: this.route });
   }
 }

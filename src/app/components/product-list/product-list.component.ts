@@ -1,6 +1,6 @@
 import Product from 'src/app/models/product.model';
 import ProductsList from 'src/app/models/productsList.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { ProductService } from 'src/app/services/product.service';
@@ -16,24 +16,21 @@ export class ProductListComponent implements OnInit, OnDestroy {
   public relatedCategories: MenuItem[] = [];
   public isLoading: boolean;
 
-  private _subscriptions: Map<string, Subscription> = new Map();
+  private subscriptions: Map<string, Subscription> = new Map();
 
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
   ) {
 
-    this._subscriptions.set('route-sub', this.route.queryParamMap.subscribe((map) => {
-      if (!map) return;
+    this.subscriptions.set('route-sub', this.route.queryParamMap.subscribe((map: ParamMap) => {
+      if (!map.has('search')) return;
 
       this._initLocalProductsRef();
-
-      if (map['params']) {
-        this._performRequest(map['params'].search);
-      }
+      this._performRequest(map.get('search'));
     }));
 
-    this._subscriptions.set('search-sub', this.productService.onSearchQueryChange.subscribe((query: string) => {
+    this.subscriptions.set('search-sub', this.productService.onSearchQueryChange.subscribe((query: string) => {
       if (!query) return;
 
       this._performRequest(query);
@@ -44,18 +41,18 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ngOnInit(): void { }
 
   ngOnDestroy(): void {
-    this._subscriptions.forEach(s => s.unsubscribe())
+    this.subscriptions.forEach(s => s.unsubscribe());
   }
 
-  private _initLocalProductsRef () {
+  private _initLocalProductsRef(): void {
     this.productService.productsList = new ProductsList();
     this.products = [];
     this.relatedCategories = [];
   }
 
-  private _performRequest(query: string) {
+  private _performRequest(query: string): void {
     if (!query) return;
-    this._changeLoadingState(true)
+    this._changeLoadingState(true);
 
     this.productService.getProductListByTitle(query)
       .subscribe((productsList: ProductsList) => {
@@ -64,10 +61,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
         this.relatedCategories = this.productService
           .getRelatedCategories(productsList.items[0].categories);
         this._changeLoadingState(false);
-      })
+      });
   }
 
-  private _changeLoadingState(state: boolean) {
+  private _changeLoadingState(state: boolean): void {
     this.isLoading = state;
   }
 }

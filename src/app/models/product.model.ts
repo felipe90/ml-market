@@ -7,9 +7,9 @@ class Product {
   };
   price: {
     currency: string;
-    amount: Number
-    decimals: Number
-  }
+    amount: number
+    decimals: number
+  };
   categories: string[];
   pictures?: string[];
   thumbnail?: string;

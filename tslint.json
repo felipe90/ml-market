@@ -4,6 +4,7 @@
     "codelyzer"
   ],
   "rules": {
+    "curly": [true, "ignore-same-line"],
     "align": {
       "options": [
         "parameters",
@@ -12,7 +13,6 @@
     },
     "array-type": false,
     "arrow-return-shorthand": true,
-    "curly": true,
     "deprecation": {
       "severity": "warning"
     },
@@ -108,7 +108,9 @@
       "options": [
         "ban-keywords",
         "check-format",
-        "allow-pascal-case"
+        "allow-pascal-case",
+        "allow-leading-underscore",
+        "allow-snake-case"
       ]
     },
     "whitespace": {

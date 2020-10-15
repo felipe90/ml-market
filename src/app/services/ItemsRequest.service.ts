@@ -20,17 +20,18 @@ export class ItemsRequestService {
     const query = params ? this.getParams(params) : '';
 
     return params ?
-      this.http.get(`http://${this.API_URL}${config.productsEndpoint}=${query}`) : this.http.get(`${this.API_URL}${config.productsEndpoint}`);
+      this.http.get(`http://${this.API_URL}${config.productsEndpoint}=${query}`) :
+      this.http.get(`${this.API_URL}${config.productsEndpoint}`);
   }
 
   public getProduct(itemId: string): Observable<any> {
-    return this.http.get(`http://${this.API_URL}${config.productEndpoint}/${itemId}`)
+    return this.http.get(`http://${this.API_URL}${config.productEndpoint}/${itemId}`);
   }
 
   private getParams(params: any): string {
     const options = [];
     Object.keys(params).forEach(keyName => {
-      options.push(`${keyName}=${params[keyName]}`)
+      options.push(`${keyName}=${params[keyName]}`);
     });
 
     return options.join('&');
