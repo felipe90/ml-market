@@ -31,6 +31,7 @@ describe('SearchProductsComponent', () => {
           provide: Router,
           useValue: {
             navigate: jasmine.createSpy('navigate'),
+            navigateByUrl : jasmine.createSpy('navigateByUrl'),
             events: of(null),
           }
         }
