@@ -7,7 +7,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { ProductListComponent } from './product-list.component';
 import { ProductService } from 'src/app/services/product.service';
-
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
@@ -19,6 +19,10 @@ describe('ProductListComponent', () => {
       declarations: [ProductListComponent],
       providers: [
         {
+          provide: ProductService,
+          useValue: productServiceMock
+        },
+        {
           provide: HttpClient,
           useClass: HttpClientTestingModule
         },
@@ -29,11 +33,10 @@ describe('ProductListComponent', () => {
             queryParams: of({ search: 'mock search' }),
             params: of([{ search: 'mock search' }])
           }
-        },
-        {
-          provide: ProductService,
-          useValue: productServiceMock
         }
+      ],
+      imports: [
+        RouterTestingModule
       ],
       schemas: [
         CUSTOM_ELEMENTS_SCHEMA

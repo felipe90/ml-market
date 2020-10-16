@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { RelatedCategoriesComponent } from './related-categories.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 
 describe('RelatedCategoriesComponent', () => {
@@ -33,7 +34,8 @@ describe('RelatedCategoriesComponent', () => {
             navigate: jasmine.createSpy('navigate'),
             events: of(null),
           }
-        }
+        },
+        RouterTestingModule
       ],
       schemas: [
         CUSTOM_ELEMENTS_SCHEMA

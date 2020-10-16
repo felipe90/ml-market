@@ -8,10 +8,9 @@
       <mat-list>
         <mat-list-item
           *ngFor="let product of products"
-          routerLinkActive="active"
         >
           <section class="product-list-item">
-            <a class="item-img" [routerLink]="['/items', product.id]">
+            <a class="item-img" [routerLink]="['/items', product.id]" routerLinkActive="active">
               <img [src]="product.pictures[0]" alt="{{ product.title }}" />
             </a>
             <section class="item-props">

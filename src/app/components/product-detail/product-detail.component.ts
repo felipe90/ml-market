@@ -61,14 +61,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       this._performRequest(map.get('id'));
     }));
 
-    this.subscriptions.set('products-sub', this.productService.onSelectedProductChange
-      .subscribe((product: Product) => {
-        this.product = product;
-        this.relatedCategories = this.productService
-          .getRelatedCategories(product.categories);
-        this.images = this.productService.fromPicturesRawArrayToImages(product.pictures, product);
-        this._changeLoadingState(false);
-      }));
+    // this.subscriptions.set('products-sub', this.productService.onSelectedProductChange
+    //   .subscribe((product: Product) => {
+    //     this.product = product;
+    //     this.relatedCategories = this.productService
+    //       .getRelatedCategories(product.categories);
+    //     this.images = this.productService.fromPicturesRawArrayToImages(product.pictures, product);
+    //     this._changeLoadingState(false);
+    //   }));
   }
 
   ngOnInit(): void {
@@ -92,7 +92,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     this.productService.getProductById(query).subscribe((res) => {
       if (!res) return;
 
-      this.productService.selectedProduct = res;
+      this.product = res;
+      this.relatedCategories = this.productService
+        .getRelatedCategories(res.categories);
+      this.images = this.productService.fromPicturesRawArrayToImages(res.pictures, res);
+
+      // this.productService.selectedProduct = res;
       this._changeLoadingState(false);
     });
   }

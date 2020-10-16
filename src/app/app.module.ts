@@ -18,6 +18,7 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { ProductService } from './services/product.service';
 import { RelatedCategoriesComponent } from './components/related-categories/related-categories.component';
+import { RouterModule } from '@angular/router';
 import { SearchProductsComponent } from './components/search-products/search-products.component';
 @NgModule({
   declarations: [
