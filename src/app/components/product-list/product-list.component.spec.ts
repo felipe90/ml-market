@@ -1,16 +1,45 @@
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { getProductServiceMock } from '../../mocks/products.service.mock';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { of } from 'rxjs';
 import { ProductListComponent } from './product-list.component';
+import { ProductService } from 'src/app/services/product.service';
+
 
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
+  let productServiceMock = getProductServiceMock();
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProductListComponent ]
+      declarations: [ProductListComponent],
+      providers: [
+        {
+          provide: HttpClient,
+          useClass: HttpClientTestingModule
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParamMap: of(convertToParamMap({ search: 'mock search' })),
+            queryParams: of({ search: 'mock search' }),
+            params: of([{ search: 'mock search' }])
+          }
+        },
+        {
+          provide: ProductService,
+          useValue: productServiceMock
+        }
+      ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

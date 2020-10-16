@@ -1,6 +1,11 @@
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { of } from 'rxjs';
 import { ProductDetailComponent } from './product-detail.component';
+
 
 describe('ProductDetailComponent', () => {
   let component: ProductDetailComponent;
@@ -8,9 +13,27 @@ describe('ProductDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProductDetailComponent ]
+      declarations: [ProductDetailComponent],
+      providers: [
+        {
+          provide: HttpClient,
+          useClass: HttpClientTestingModule
+        },
+        {
+          provide:
+            ActivatedRoute,
+          useValue: {
+            paramMap: of(convertToParamMap({ id: 'mock id' })),
+            queryParams: of({ id: 'mock id' }),
+            params: of([{ id: 'mock id', }]),
+          },
+        }
+      ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -1,0 +1,23 @@
+{
+  "q": "ipad",
+  "suggested_queries": [
+    { "q": "ipad", "match_start": 0, "match_end": 4, "filters": [] },
+    { "q": "ipad mini", "match_start": 0, "match_end": 4, "filters": [] },
+    { "q": "ipad usado", "match_start": 0, "match_end": 4, "filters": [] },
+    { "q": "ipad air", "match_start": 0, "match_end": 4, "filters": [] },
+    { "q": "ipad 2", "match_start": 0, "match_end": 4, "filters": [] },
+    { "q": "teclado ipad", "match_start": 8, "match_end": 12, "filters": [] },
+    {
+      "q": "ipad",
+      "match_start": 0,
+      "match_end": 4,
+      "filters": [
+        {
+          "id": "official_store",
+          "name": "Tienda Oficial",
+          "values": [{ "id": "all", "name": "todas las Tiendas Oficiales" }]
+        }
+      ]
+    }
+  ]
+}

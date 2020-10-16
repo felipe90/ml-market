@@ -2,6 +2,7 @@ import Product from 'src/app/models/product.model';
 import ProductsList from 'src/app/models/productsList.model';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { MenuItem } from 'primeng/api';
 import { ProductService } from 'src/app/services/product.service';
 import { Subscription } from 'rxjs';
@@ -23,20 +24,17 @@ export class ProductListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
   ) {
 
-    this.subscriptions.set('route-sub', this.route.queryParamMap.subscribe((map: ParamMap) => {
-      this._initLocalProductsRef();
+    this.route.queryParamMap
 
-      if (map.has('search')) {
-        this._performRequest(map.get('search'));
-      }
-    }));
+    this.subscriptions.set('route-sub', this.route.queryParamMap
+      .pipe(distinctUntilChanged())
+      .subscribe((map: ParamMap) => {
+        this._initLocalProductsRef();
 
-    this.subscriptions.set('search-sub', this.productService.onSearchQueryChange.subscribe((query: string) => {
-      if (!query) return;
-
-      this._performRequest(query);
-    }));
-
+        if (map.has('search')) {
+          this._performRequest(map.get('search'));
+        }
+      }));
   }
 
   ngOnInit(): void { }

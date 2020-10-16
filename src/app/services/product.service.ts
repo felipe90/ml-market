@@ -2,7 +2,7 @@ import Image from '../models/image.model';
 import Product from '../models/product.model';
 import ProductsList from '../models/productsList.model';
 import { Injectable } from '@angular/core';
-import { ItemsRequestService } from './ItemsRequest.service';
+import { ItemsRequestService } from './items-request.service';
 import { map, take } from 'rxjs/operators';
 import { MenuItem } from 'primeng/api';
 import { Observable, Subject } from 'rxjs';
@@ -18,9 +18,6 @@ export class ProductService {
 
   public selectedProductChange = new Subject<Product>();
   public onSelectedProductChange: Observable<Product> = this.selectedProductChange.asObservable();
-  public searchQueryChange = new Subject<string>();
-  public onSearchQueryChange: Observable<string> = this.searchQueryChange.asObservable();
-
 
   public get productsList(): ProductsList {
     return { ...this._productsList };
@@ -43,9 +40,8 @@ export class ProductService {
     return this._searchQuery;
   }
 
-  public set searchQuery(v: string) {
-    this._searchQuery = v;
-    this.searchQueryChange.next(this._searchQuery);
+  public set searchQuery(value: string) {
+    this._searchQuery = value;
   }
 
   constructor(private requestService: ItemsRequestService) { }
@@ -65,8 +61,7 @@ export class ProductService {
   public getSuggestionsByQuery(query: string): Observable<any> {
     return this.requestService.getSuggestedQueries(query)
       .pipe(take(1))
-      .pipe(map(res => res.suggested_queries));
-
+      .pipe(map((res: any) => res.suggested_queries));
   }
 
   /**

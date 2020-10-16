@@ -1,11 +1,11 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpXhrBackend } from '@angular/common/http';
-import { ProductService } from './product.service';
+import { ItemsRequestService } from './items-request.service';
 import { TestBed } from '@angular/core/testing';
 
 
-describe('ProductService', () => {
-  let service: ProductService;
+describe('ItemsRequestService', () => {
+  let service: ItemsRequestService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -19,7 +19,9 @@ describe('ProductService', () => {
         }
       ]
     });
-    service = TestBed.inject(ProductService);
+    service = TestBed.inject(ItemsRequestService);
+
+    const backend = TestBed.bind(HttpTestingController);
   });
 
   it('should be created', () => {
