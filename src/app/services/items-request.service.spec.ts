@@ -6,8 +6,8 @@ import { TestBed } from '@angular/core/testing';
 
 describe('ItemsRequestService', () => {
   let service: ItemsRequestService;
-  let httpTestingController: HttpTestingController;
   let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,7 +31,6 @@ describe('ItemsRequestService', () => {
   afterEach(() => {
     httpTestingController.verify(); //Verifies that no requests are outstanding.
   });
-
 
   it('should be created', () => {
     expect(service).toBeTruthy();

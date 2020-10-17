@@ -30,6 +30,10 @@ export class ItemsRequestService {
       .pipe(catchError(this.handleError<any>([])));
   }
 
+  public getSuggestedQueries(title: string): Observable<any> {
+    return this.http.get(`${config.suggestedQueriesEndPoint}${title}`);
+  }
+
   private getParams(params: any): string {
     const options = [];
     Object.keys(params).forEach(keyName => {
@@ -37,10 +41,6 @@ export class ItemsRequestService {
     });
 
     return options.join('&');
-  }
-
-  public getSuggestedQueries(title: string): Observable<any> {
-    return this.http.get(`${config.suggestedQueriesEndPoint}${title}`);
   }
 
   private handleError<T>(result = {} as T) {
