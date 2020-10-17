@@ -18,7 +18,7 @@ export class ItemsRequestService {
     const obs =
       params ?
         this.http.get(`http://${this.API_URL}${config.productsEndpoint}=${query}`) :
-        this.http.get(`${this.API_URL}${config.productsEndpoint}`);
+        this.http.get(`http://${this.API_URL}${config.productsEndpoint}`);
 
     return obs
       .pipe(catchError(this.handleError<any>([])))
@@ -34,6 +34,13 @@ export class ItemsRequestService {
     return this.http.get(`${config.suggestedQueriesEndPoint}${title}`);
   }
 
+  public handleError<T>(result = {} as T) {
+    return (error: HttpErrorResponse): Observable<T> => {
+      console.error(error);
+      return of(result);
+    };
+  }
+
   private getParams(params: any): string {
     const options = [];
     Object.keys(params).forEach(keyName => {
@@ -41,12 +48,5 @@ export class ItemsRequestService {
     });
 
     return options.join('&');
-  }
-
-  private handleError<T>(result = {} as T) {
-    return (error: HttpErrorResponse): Observable<T> => {
-      console.error(error);
-      return of(result);
-    };
   }
 }

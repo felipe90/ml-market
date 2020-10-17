@@ -4,7 +4,7 @@ import Product from '../models/product.model';
 import ProductsList from '../models/productsList.model';
 import suggestionsMocks from '../mocks/data/suggestions.mock.json';
 import { getItemsRequestServiceMock } from '../mocks/items-request.service.mock';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { isEqual } from 'lodash';
 import { ItemsRequestService } from './items-request.service';
 import { MenuItem } from 'primeng/api';
