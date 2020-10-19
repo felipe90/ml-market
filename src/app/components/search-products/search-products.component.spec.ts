@@ -74,7 +74,6 @@ describe('SearchProductsComponent', () => {
 
   describe('should', () => {
     it('perform suggestion search', waitForAsync(() => {
-      fixture.detectChanges();
       component.searchSuggestions({ query: suggestionQuery });
 
       fixture.whenStable().then(() => {
@@ -83,29 +82,31 @@ describe('SearchProductsComponent', () => {
     }));
 
     it('perform suggestion search on keyup', waitForAsync(() => {
-      component.selectedValue = "mock seacrh";
+      component.selectedValue = "mock search";
+      const event = { type: 'keyup', keyCode: 13 };
       fixture.detectChanges();
 
-      component.searchProducts({ type: 'keyup', keyCode: 13 });
+      component.searchProducts(event);
 
       fixture.whenStable().then(() => {
-        expect(productService.getSuggestionsByQuery).toHaveBeenCalled();
+        expect(router.navigateByUrl).toHaveBeenCalled();
       });
     }));
 
     it('perform suggestion search on click', waitForAsync(() => {
-      component.selectedValue = "mock seacrh";
+      component.selectedValue = "mock search";
+      const event = { type: 'click' };
       fixture.detectChanges();
 
-      component.searchProducts({ type: 'click' });
+      component.searchProducts(event);
 
       fixture.whenStable().then(() => {
-        expect(productService.getSuggestionsByQuery).toHaveBeenCalled();
+        expect(router.navigateByUrl).toHaveBeenCalled();
       });
     }));
 
     it('go home screen', waitForAsync(() => {
-      component.selectedValue = "mock seacrh";
+      component.selectedValue = "mock search";
       fixture.detectChanges();
 
       component.goToHome();
