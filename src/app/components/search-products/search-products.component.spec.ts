@@ -1,5 +1,10 @@
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  waitForAsync
+  } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { getProductServiceMock } from 'src/app/mocks/products.service.mock';
 import { HttpClient } from '@angular/common/http';
@@ -11,7 +16,10 @@ import { SearchProductsComponent } from './search-products.component';
 
 
 describe('SearchProductsComponent', () => {
+  let suggestionQuery = 'ipad';
   let component: SearchProductsComponent;
+  let router: Router;
+  let productService: ProductService;
   let fixture: ComponentFixture<SearchProductsComponent>;
   let productServiceMock = getProductServiceMock();
 
@@ -39,7 +47,7 @@ describe('SearchProductsComponent', () => {
           provide: Router,
           useValue: {
             navigate: jasmine.createSpy('navigate'),
-            navigateByUrl : jasmine.createSpy('navigateByUrl'),
+            navigateByUrl: jasmine.createSpy('navigateByUrl'),
             events: of(null),
           }
         },
@@ -54,11 +62,59 @@ describe('SearchProductsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchProductsComponent);
+    productService = TestBed.inject(ProductService)
+    router = TestBed.inject(Router)
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('should', () => {
+    it('perform suggestion search', waitForAsync(() => {
+      fixture.detectChanges();
+      component.searchSuggestions({ query: suggestionQuery });
+
+      fixture.whenStable().then(() => {
+        expect(productService.getSuggestionsByQuery).toHaveBeenCalled();
+      });
+    }));
+
+    it('perform suggestion search on keyup', waitForAsync(() => {
+      component.selectedValue = "mock seacrh";
+      fixture.detectChanges();
+
+      component.searchProducts({ type: 'keyup', keyCode: 13 });
+
+      fixture.whenStable().then(() => {
+        expect(productService.getSuggestionsByQuery).toHaveBeenCalled();
+      });
+    }));
+
+    it('perform suggestion search on click', waitForAsync(() => {
+      component.selectedValue = "mock seacrh";
+      fixture.detectChanges();
+
+      component.searchProducts({ type: 'click' });
+
+      fixture.whenStable().then(() => {
+        expect(productService.getSuggestionsByQuery).toHaveBeenCalled();
+      });
+    }));
+
+    it('go home screen', waitForAsync(() => {
+      component.selectedValue = "mock seacrh";
+      fixture.detectChanges();
+
+      component.goToHome();
+
+      fixture.whenStable().then(() => {
+
+        expect(router.navigate).toHaveBeenCalled();
+        expect(component.selectedValue).toBe('');
+      });
+    }));
   });
 });
