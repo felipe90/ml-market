@@ -1,3 +1,4 @@
+import Product from 'src/app/models/product.model';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -55,5 +56,30 @@ describe('ProductDetailComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('should', () => {
+    it('buy product opening real link', () => {
+      spyOn(component.window, 'open')
+
+      const exp = new Product();
+      exp.permalink = 'mocklink';
+      component.buyProduct(exp)
+
+      expect(component.window.open).toHaveBeenCalled();
+    });
+
+    it('NOT buy product opening real link', () => {
+      const exp = new Product();
+      exp.permalink = null;
+      expect(component.buyProduct(exp)).toBeUndefined();
+    });
+
+    it('check page scroll and set sticky flag', () => {
+      component.checkScroll();
+      fixture.detectChanges();
+
+      expect(component.isSticky).toBeFalsy();
+    });
   });
 });
