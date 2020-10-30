@@ -4,13 +4,15 @@
     [relatedCategories]="relatedCategories"
   ></app-related-categories>
   <section *ngIf="products.length > 0" class="product-list">
-    <mat-card>
+    <mat-card class="list-view">
       <mat-list>
-        <mat-list-item
-          *ngFor="let product of products"
-        >
+        <mat-list-item *ngFor="let product of products">
           <section class="product-list-item">
-            <a class="item-img" [routerLink]="['/items', product.id]" routerLinkActive="active">
+            <a
+              class="item-img"
+              [routerLink]="['/items', product.id]"
+              routerLinkActive="active"
+            >
               <img [src]="product.pictures[0]" alt="{{ product.title }}" />
             </a>
             <section class="item-props">
@@ -25,7 +27,8 @@
                   src="assets/img/ic_shipping.png"
                   *ngIf="product.free_shipping"
                   aria-label="free-shipping"
-                  alt="{{ product.title }}" />
+                  alt="{{ product.title }}"
+                />
               </section>
               <h2>{{ product.title }}</h2>
               <p>{{ product.title }}</p>
@@ -45,8 +48,31 @@
         </mat-list-item>
       </mat-list>
     </mat-card>
+    <section class="product-grid-item card-view">
+      <mat-card
+        *ngFor="let product of products"
+        class="grid-item"
+        [routerLink]="['/items', product.id]"
+        routerLinkActive="active"
+      >
+        <section class="grid-item-props">
+          <h3 class="grid-item-price">
+            {{
+              product.price?.amount
+                | currency: product.price.currency:"symbol-narrow":"4.0"
+            }}
+          </h3>
+          <p *ngIf="product.condition" class="grid-item-condition">
+            {{ product.condition === "new" ? "Nuevo" : null }}
+            {{ product.condition === "used" ? "Usado" : null }}
+          </p>
+        </section>
+        <mat-card-title class="grid-item-title">{{ product.title }}</mat-card-title>
+        <img [src]="product.pictures[0]" alt="{{ product.title }}" />
+      </mat-card>
+    </section>
   </section>
 </section>
 <span class="loading-icon" *ngIf="isLoading === true">
-  <i class="pi pi-spin pi-spinner "> </i>
+  <i class="pi pi-spin pi-spinner"> </i>
 </span>

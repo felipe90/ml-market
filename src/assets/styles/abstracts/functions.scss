@@ -1,0 +1,10 @@
+/**
+ *  Content app wide functions
+ */
+@function zindex($layer) {
+  @if not map-has-key($z-index, $layer) {
+    @warn "No z index found";
+  }
+
+  @return map-get($z-index, $layer);
+}

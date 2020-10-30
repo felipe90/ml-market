@@ -14,11 +14,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { ProductService } from './services/product.service';
 import { RelatedCategoriesComponent } from './components/related-categories/related-categories.component';
-import { RouterModule } from '@angular/router';
 import { SearchProductsComponent } from './components/search-products/search-products.component';
 @NgModule({
   declarations: [
@@ -41,7 +41,8 @@ import { SearchProductsComponent } from './components/search-products/search-pro
     MatButtonToggleModule,
     MatDividerModule,
     BreadcrumbModule,
-    GalleriaModule
+    GalleriaModule,
+    MatGridListModule
   ],
   providers: [
     ItemsRequestService,

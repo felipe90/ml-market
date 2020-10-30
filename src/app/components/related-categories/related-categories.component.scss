@@ -1,3 +1,5 @@
+@import "/src/assets/styles/abstracts.scss";
+
 :host {
   display: block;
   margin: 0 auto;
@@ -10,5 +12,11 @@
 
   ul li:last-child .p-menuitem-link .p-menuitem-text {
     font-weight: bold;
+  }
+}
+
+@media (max-width: $medium-breakpoint) {
+  :host {
+    display: none;
   }
 }

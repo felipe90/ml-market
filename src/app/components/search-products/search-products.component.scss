@@ -1,8 +1,11 @@
 @import "~@angular/material/theming";
-@import "/src/variables.scss";
+@import "/src/assets/styles/abstracts.scss";
 
 :host {
   @include mat-elevation(4);
+  z-index: zindex("menu");
+  position: fixed;
+  top: 0;
   display: block;
   width: 100%;
   background-color: $search-bar-color;
@@ -52,5 +55,25 @@
 
   .p-button:enabled:hover .p-button-icon {
     color: $search-btn-background-color;
+  }
+}
+
+@media (max-width: $medium-breakpoint) {
+  :host {
+    top: unset;
+    bottom: 0;
+  }
+
+  .search-product-container {
+    margin: 0;
+    width: initial;
+  }
+
+  .search-autocomplete {
+    margin: 0 1rem;
+  }
+
+  .img-logo {
+    display: none;
   }
 }

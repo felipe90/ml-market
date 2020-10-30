@@ -1,11 +1,19 @@
 @import "~@angular/material/theming";
-@import "/src/variables.scss";
+@import "/src/assets/styles/abstracts.scss";
 
 :host {
   display: block;
   width: $content-container-width;
   margin: 0 auto;
   padding: 1rem 0;
+}
+
+.list-view {
+  display: block;
+}
+
+.card-view {
+  display: none;
 }
 
 .mat-card {
@@ -51,4 +59,73 @@
 .item-location {
   width: 30%;
   padding: 2rem 0;
+}
+
+.product-grid-item {
+  display: grid;
+
+  .grid-item {
+    margin: 0.75rem;
+  }
+}
+
+@media (max-width: $medium-breakpoint) {
+  :host,
+  .product-list {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .list-view {
+    display: none;
+  }
+
+  .card-view {
+    display: grid;
+  }
+
+  .item-location {
+    display: none;
+  }
+
+  .product-grid-item {
+    grid-template-columns: 33.33% 33.33% 33.33%;
+
+    .grid-item {
+      position: relative;
+    }
+
+    .grid-item-title {
+      color: #fff;
+      border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 4px;
+      background-color: rgba(52, 131, 250, 0.85);
+      font-size: 16px;
+      position: absolute;
+      bottom: 0;
+      padding: 0.25rem;
+      margin: 0;
+      line-height: 16px;
+    }
+
+    .grid-item-props {
+      position: absolute;
+      top: 0;
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .grid-item img {
+      width: 100%;
+      padding: 0.5rem;
+    }
+  }
+}
+
+@media (max-width: $small-breakpoint) {
+  .product-grid-item {
+    grid-template-columns: 50% 50%;
+  }
 }
