@@ -7,7 +7,7 @@ const ML_API = {
   ITEM_DESC_URI : 'https://api.mercadolibre.com/items/{id}/description',
   CATEGORIES_URI : 'https://api.mercadolibre.com/categories/{id}',
   USERS_URI : 'https://api.mercadolibre.com/users/{id}',
-  ITEMS_QUERY_LIMIT : 4,
+  ITEMS_QUERY_LIMIT : 8,
   PICTURE_SIZE : "200x200"
 }
 

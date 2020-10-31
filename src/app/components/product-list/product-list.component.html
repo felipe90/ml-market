@@ -62,12 +62,17 @@
                 | currency: product.price.currency:"symbol-narrow":"4.0"
             }}
           </h3>
-          <p *ngIf="product.condition" class="grid-item-condition">
-            {{ product.condition === "new" ? "Nuevo" : null }}
-            {{ product.condition === "used" ? "Usado" : null }}
-          </p>
+          <mat-icon
+            *ngIf="product.condition && product.condition === 'new'"
+            class="grid-item-condition"
+            aria-hidden="false"
+            aria-label="New item icon"
+            >fiber_new</mat-icon
+          >
         </section>
-        <mat-card-title class="grid-item-title">{{ product.title }}</mat-card-title>
+        <mat-card-title class="grid-item-title">{{
+          product.title
+        }}</mat-card-title>
         <img [src]="product.pictures[0]" alt="{{ product.title }}" />
       </mat-card>
     </section>

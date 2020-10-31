@@ -15,6 +15,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { ProductService } from './services/product.service';
@@ -42,7 +43,8 @@ import { SearchProductsComponent } from './components/search-products/search-pro
     MatDividerModule,
     BreadcrumbModule,
     GalleriaModule,
-    MatGridListModule
+    MatGridListModule,
+    MatIconModule
   ],
   providers: [
     ItemsRequestService,
