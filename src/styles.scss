@@ -1,4 +1,5 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "/src/assets/styles/abstracts.scss";
 
 // Global Styles
 body {
@@ -62,4 +63,10 @@ p {
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: $medium-breakpoint) {
+  .loading-icon .pi {
+    font-size: 6rem;
+  }
 }

@@ -5,7 +5,7 @@
   ></app-related-categories>
   <section *ngIf="product" class="product-container">
     <mat-card>
-      <section class="product-item">
+      <section class="product-item desktop-view">
         <section class="item-img">
           <p-galleria
             [(value)]="images"
@@ -72,6 +72,67 @@
         <section class="item-desc">
           <h2>Descripcion del producto</h2>
           <p>{{ product.description }}</p>
+        </section>
+      </section>
+      <section class="mobile-view">
+        <section class="item-img">
+          <p-galleria
+            [(value)]="images"
+            [responsiveOptions]="responsiveOptions"
+            [showThumbnails]="false"
+            [numVisible]="5"
+            [circular]="true"
+            [showItemNavigators]="true"
+            [showIndicatorsOnItem]="true"
+            [showIndicators]="true"
+          >
+            <ng-template pTemplate="item" let-img>
+              <img [src]="img.previewImageSrc" style="width: 100%" />
+            </ng-template>
+            <ng-template pTemplate="thumbnail" let-img>
+              <div class="p-grid p-nogutter p-justify-center">
+                <img [src]="img.thumbnailImageSrc" style="width: 50px" />
+              </div>
+            </ng-template>
+          </p-galleria>
+        </section>
+        <section class="mobile-content">
+          <h2 class="item-title">{{ product.title }}</h2>
+          <section class="item-price">
+            <h3>
+              {{
+                product.price?.amount
+                  | currency: product.price.currency:"symbol-narrow":"4.0"
+              }}
+            </h3>
+            <img
+              src="assets/img/ic_shipping.png"
+              *ngIf="product.free_shipping"
+              aria-label="free-shipping"
+              alt="{{ product.title }}"
+            />
+          </section>
+          <section class="item-attrs">
+            <h2>Caracteristicas</h2>
+            <div class="item-attrs-wrapper">
+              <p *ngFor="let attr of product.attributes">{{ attr }}</p>
+            </div>
+          </section>
+          <section class="item-desc">
+            <h2>Descripcion del producto</h2>
+            <p>{{ product.description }}</p>
+          </section>
+        </section>
+        <section class="mobile-button">
+          <button
+            mat-raised-button
+            class="buy-btn"
+            color="primary"
+            aria-label="boton comprar"
+            (click)="buyProduct(product)"
+          >
+            Comprar
+          </button>
         </section>
       </section>
     </mat-card>

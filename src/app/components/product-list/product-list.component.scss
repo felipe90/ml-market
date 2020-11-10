@@ -5,7 +5,7 @@
   display: block;
   width: $content-container-width;
   margin: 0 auto;
-  padding: 1rem 0;
+  padding: 4.5rem 0 2rem;
 }
 
 .list-view {
@@ -62,8 +62,6 @@
 }
 
 .product-grid-item {
-  display: grid;
-
   .grid-item {
     margin: 0.75rem;
   }
@@ -125,8 +123,9 @@
     margin: 0;
   }
 
-  .product-list {
-    padding-bottom: 2rem;
+  :host {
+    padding-top: 0;
+    padding-bottom: 3.5rem;
   }
 
   .list-view {
@@ -144,6 +143,7 @@
 
 @media (max-width: $small-breakpoint) {
   .product-grid-item {
+    display: grid;
     grid-template-columns: 50% 50%;
   }
 }

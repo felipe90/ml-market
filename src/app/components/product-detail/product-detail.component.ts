@@ -86,7 +86,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         .getRelatedCategories(res.categories);
       this.images = this.productService.fromPicturesRawArrayToImages(res.pictures, res);
 
-      // this.productService.selectedProduct = res;
       this._changeLoadingState(false);
     });
   }
